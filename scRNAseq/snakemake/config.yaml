@@ -1,0 +1,37 @@
+all:
+  data_dir: "data/"        # Specify main data directory
+  plot_dir: "plots/"       # Specify main plot directory
+  datasets:                # Specify datasets as a list
+    - 'GSE162631'
+    - 'GSE278456'
+    - 'GSE222522'
+
+  phenotypes:
+    - "DC"
+    - "myeloid"
+    - 'lymphocyte'
+
+filtering:
+  default:
+    max_genes: 5000
+    min_genes: 300         # Minimal expressed genes per cell
+    max_mt_pct: 10       # Maximal %-age of MT genes per cell
+    min_cells: 50        # Minimal cells expressing a gene
+
+  specific:
+    GSE222522:
+      max_genes: 4000    # Override max_genes specifically for GSE222522
+
+clustering:
+  batch_method: 'bbknn'  # options: "bbknn", "harmony", "none"
+  n_pcs: 25              # Number of principal components to consider
+  n_neighbors: 20        # Number of neighbors for knn graph
+  resolution: 1         # Resolution for clustering (low means fewer clusters)
+
+reclustering:
+  resolution: 1
+
+subsets:
+  - 'DC'
+  - 'myeloid'
+  - 'lymphocyte'
