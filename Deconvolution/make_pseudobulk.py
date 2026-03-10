@@ -13,6 +13,7 @@ Functionality:
 Notes:
 - Supports sparse matrices (csr_matrix) efficiently to handle large datasets.
 - If the expression matrix is dense, it will warn the user (may be memory intensive).
+- Be aware for Statescope you need to transpose the output!
 
 Inputs (via command-line arguments):
 --input_h5ad     Path to input .h5ad file
