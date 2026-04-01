@@ -4,19 +4,25 @@ Script: Validation of Statescope-Derived Malignant Fractions Against Prior Purit
 Description:
 This script evaluates the concordance between malignant cell fractions estimated by 
 Statescope (from bulk RNA-seq deconvolution) and independent prior purity estimates 
-(e.g., derived from DNA copy number data). 
+(e.g., derived from DNA copy number data such as ACE).
 
-The script:
+The script performs the following steps:
 1. Loads deconvolution output and prior purity data.
 2. Identifies mismatches in sample identifiers between datasets.
-3. Restricts analysis to shared samples.
-4. Computes Pearson correlation between the two purity estimates.
-5. Generates a scatter plot with regression and identity (y=x) lines to assess agreement.
+3. Restricts the analysis to shared samples.
+4. Computes validation metrics:
+   - Pearson correlation coefficient (PCC)
+   - P-value
+   - Root mean square deviation (RMSD)
+5. Generates a scatter plot comparing predicted vs. prior tumor fractions,
+   including an identity line (y = x) to assess agreement.
+6. Compares correlation results obtained from SciPy and a custom NumPy implementation
+   to ensure numerical consistency and robustness.
 
-The resulting figure is saved for downstream reporting and validation purposes.
+The resulting figure and metrics are used for downstream reporting and validation 
+of deconvolution performance.
 
 Author: Mabel Pronk
-
 """
 
 import pandas as pd
@@ -97,8 +103,9 @@ if len(shared_samples) > 0:
         data=merged, 
         x='Malignant_Prior', 
         y='Malignant_Statescope',
-        scatter_kws={'alpha':0.5, 's':40},
-        line_kws={'color':'red', 'label': f'Regression (r={r:.2f})'}
+        fit_reg=False,
+        scatter_kws={'alpha':0.5, 's':40}
+        #line_kws={'color':'red', 'label': f'Regression (r={r:.2f})'}
     )
     
     # Add identity line (y = x) representing perfect agreement
@@ -109,9 +116,9 @@ if len(shared_samples) > 0:
     plt.plot([0, max_val], [0, max_val], color='black', linestyle='--', label='Identity (y=x)')
     
     # Customize plot appearance
-    plt.title('Purity Validation: Trend vs. Accuracy')
-    plt.xlabel('Prior Purity (DNA/Pathology)')
-    plt.ylabel('Statescope Malignant Fraction')
+    plt.title('Scatterplot of true vs predicted tumor fraction')
+    plt.xlabel('Prior tumor fraction (ACE)')
+    plt.ylabel('Statescope tumor fraction estimate')
     plt.legend()
     plt.grid(True, linestyle=':', alpha=0.6)
     plt.xlim(0, 1)
@@ -122,3 +129,54 @@ if len(shared_samples) > 0:
 
 else:
     print("\n[ERROR] No matching samples found. Check if the IDs (indices) format matches.")
+
+
+#-------------------------------------------------------------------------------
+# 5. Quantitative Validation Metrics
+#-------------------------------------------------------------------------------
+
+import numpy as np 
+
+# 1. Calculate Pearson Correlation (PCC)
+# pearsonr returns (correlation coefficient, p-value)
+r, p_val = pearsonr(merged['Malignant_Statescope'], merged['Malignant_Prior'])
+
+# 2. Calculate RMSD (Root Mean Square Deviation)
+# Measures the average deviation from perfect agreement (identity line y = x)
+rmsd = np.sqrt(((merged['Malignant_Statescope'] - merged['Malignant_Prior']) ** 2).mean())
+
+print(f"--- Validation Metrics (Malignant Cells) ---")
+print(f"Pearson Correlation (r): {r:.4f}")
+print(f"P-value:                {p_val:.4e}")
+print(f"RMSD:                   {rmsd:.4f}")
+
+
+#-------------------------------------------------------------------------------
+# 6. Consistency Check: Correlation Implementation
+#-------------------------------------------------------------------------------
+
+def safe_pcc(x, y):
+    """
+    Computes Pearson correlation using NumPy with safeguards against zero variance.
+    Returns NaN if either input has zero standard deviation.
+    """
+    x = np.asarray(x).reshape(-1)
+    y = np.asarray(y).reshape(-1)
+    
+    # Prevent division by zero when variance is zero
+    if np.allclose(np.std(x), 0) or np.allclose(np.std(y), 0):
+        return np.nan
+    
+    return np.corrcoef(x, y)[0, 1]
+
+
+# Calculate using SciPy (reference implementation)
+r_scipy, p_val = pearsonr(merged['Malignant_Statescope'], merged['Malignant_Prior'])
+
+# Calculate using custom NumPy implementation
+r_np = safe_pcc(merged['Malignant_Statescope'], merged['Malignant_Prior'])
+
+print(f"--- Correlation Comparison ---")
+print(f"Scipy Pearson r: {r_scipy:.6f}")
+print(f"NumPy safe_pcc:  {r_np:.6f}")
+print(f"Difference:      {abs(r_scipy - r_np):.2e}")
