@@ -38,6 +38,7 @@ import matplotlib.pyplot as plt
 import os
 from scipy.stats import shapiro, levene, mannwhitneyu, ttest_ind
 from statsmodels.stats.multitest import multipletests 
+from statannotations.Annotator import Annotator
 
 #-------------------------------------------------------------------------------
 # 1. Load and Filter Data
@@ -83,49 +84,7 @@ df_melted = df_micro.reset_index().melt(
 )
 
 #-------------------------------------------------------------------------------
-# 3. Plotting
-#-------------------------------------------------------------------------------
-plt.figure(figsize=(14, 8))
-sns.set_style("ticks")
-
-ax = sns.boxplot(
-    data=df_melted, 
-    x='Cell Type', 
-    y='Relative Fraction', 
-    hue='Group',
-    hue_order=group_order,  # NEW: Forces Group 3 to the left
-    palette={'Group 3': '#1f77b4', 'Group 4': '#ff7f0e'},
-    linewidth=1.2,
-    showfliers=True
-)
-
-plt.title('Microenvironment Composition: Group 3 vs Group 4', fontsize=15, pad=20)
-plt.ylabel('Relative Fraction', fontsize=13)
-plt.xlabel('Cell Type', fontsize=13)
-plt.xticks(rotation=45, ha='right', fontsize=11)
-
-# Black surrounding frame (Spines)
-for spine in ax.spines.values():
-    spine.set_visible(True)
-    spine.set_color('black')
-    spine.set_linewidth(1.2)
-
-# Lighter Grid Lines (Back to the original subtle look)
-plt.grid(axis='y', linestyle='--', color='grey', alpha=0.3, linewidth=0.8)
-plt.legend(title="Group", loc='upper right', frameon=True, edgecolor='black', fontsize=11)
-plt.tight_layout()
-
-#-------------------------------------------------------------------------------
-# 4. Save Figure
-#-------------------------------------------------------------------------------
-# Define output directory and filename
-save_dir = "/net/beegfs/users/P086608/StatescopePro_v2/TCGA_bulk/Output"
-save_path = os.path.join(save_dir, "boxplot_microenvironment_G3_G4_renormalized.png")
-if not os.path.exists(save_dir): os.makedirs(save_dir)
-plt.savefig(save_path, dpi=300)
-
-#-------------------------------------------------------------------------------
-# 5. Statistical Testing & BH Correction
+# 3. Statistical Testing & BH Correction
 #-------------------------------------------------------------------------------
 
 raw_p_values = []
@@ -192,3 +151,53 @@ for i, cell in enumerate(cell_types):
     n_info = f"{n_g3}/{n_g4}"
     print(f"{cell:<18} | {n_info:<12} | {raw_p_values[i]:<10.4f} | {adj_p_values[i]:<12.4f} | {sig}")
 print(f"{'='*85}")
+
+#-------------------------------------------------------------------------------
+# 4. Plotting
+#-------------------------------------------------------------------------------
+plt.figure(figsize=(14, 8))
+sns.set_style("ticks")
+
+ax = sns.boxplot(
+    data=df_melted, 
+    x='Cell Type', 
+    y='Relative Fraction', 
+    hue='Group',
+    hue_order=group_order,  # NEW: Forces Group 3 to the left
+    palette={'Group 3': '#1f77b4', 'Group 4': '#ff7f0e'},
+    linewidth=1.2,
+    showfliers=True
+)
+
+# --- ADDED ANNOTATOR BLOCK ---
+pairs = [((cell, "Group 3"), (cell, "Group 4")) for cell in cell_types]
+annotator = Annotator(ax, pairs, data=df_melted, x='Cell Type', y='Relative Fraction', hue='Group', hue_order=group_order)
+annotator.configure(text_format="star", loc="inside", fontsize=12)
+annotator.set_pvalues(adj_p_values) # Uses the FDR-adjusted values
+annotator.annotate()
+
+plt.title('Microenvironment Composition: Group 3 vs Group 4', fontsize=15, pad=20)
+plt.ylabel('Relative Fraction', fontsize=13)
+plt.xlabel('Cell Type', fontsize=13)
+plt.xticks(rotation=45, ha='right', fontsize=11)
+
+# Black surrounding frame (Spines)
+for spine in ax.spines.values():
+    spine.set_visible(True)
+    spine.set_color('black')
+    spine.set_linewidth(1.2)
+
+# Lighter Grid Lines (Back to the original subtle look)
+plt.grid(axis='y', linestyle='--', color='grey', alpha=0.3, linewidth=0.8)
+plt.legend(title="Group", loc='upper right', frameon=True, edgecolor='black', fontsize=11)
+plt.tight_layout()
+
+#-------------------------------------------------------------------------------
+# 4. Save Figure
+#-------------------------------------------------------------------------------
+# Define output directory and filename
+save_dir = "/net/beegfs/users/P086608/StatescopePro_v2/TCGA_bulk/Output"
+save_path = os.path.join(save_dir, "boxplot_microenvironment_G3_G4_renormalized.png")
+if not os.path.exists(save_dir): os.makedirs(save_dir)
+plt.savefig(save_path, dpi=300)
+
