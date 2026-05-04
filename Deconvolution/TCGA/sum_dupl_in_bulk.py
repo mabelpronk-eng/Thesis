@@ -5,7 +5,7 @@ Description:
 This script aggregates duplicated gene entries in a TCGA bulk RNA-seq expression matrix 
 by summing their expression values across all samples. Prior to running this script, 
 it is recommended to verify whether duplicated genes overlap with signature marker genes 
-(e.g., using 'check_genes_names.py'), as summing marker genes may affect downstream analyses.
+(e.g., using 'check_dupl_bulk_in_signature.py'), as summing marker genes may affect downstream analyses.
 
 The script groups rows by gene name (index), collapses duplicates by summation, and 
 overwrites the original file with a cleaned matrix containing unique gene identifiers.
@@ -13,7 +13,7 @@ overwrites the original file with a cleaned matrix containing unique gene identi
 Author: Mabel pronk
 """
 
-# First use script: check_genes_names.py to verify whether duplicates are present 
+# First use script: check_dupl_bulk_in_signature.py to verify whether duplicates are present 
 # in the signature matrix. If no critical conflicts are found, proceed with this script.
 
 import pandas as pd
