@@ -1,0 +1,75 @@
+configfile: "config.yaml"
+from scripts.utils import *            
+#+++++++++++++++++++++++++++++++++++++++ 0 PREPARE WILDCARDS AND TARGET ++++++++++++++++++++++++++++++++++++++++++++
+# 0.1 Prepare wildcards and variables
+data_dir = config["all"]["data_dir"]
+Sample_dict = Get_Sample_dict(data_dir)
+Projects = Sample_dict.keys()
+Samples = set([sample for project  in Projects for sample in Sample_dict[project].values()])
+paths = Get_file_paths(Sample_dict, data_dir)
+Ploidies = config['ACE']['ploidies']
+
+print("Projects:", Projects)
+print("Sample_dict keys:", Sample_dict.keys())
+
+#-------------------------------------------------------------------------------------------------------------------
+# 0.3 specify target rules
+rule all:
+    input:
+        expand(
+            "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/plots/purity/Scatterplots_purity_{ploidy}_{project}.svg",
+            project=Projects,
+            ploidy=Ploidies),
+        expand(
+            "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/{project}/ACE_Tumor_purities_{ploidy}.tsv",
+            project=Projects,
+            ploidy=Ploidies),
+        expand(
+            "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/{project}/data/Samples_to_exclude_{ploidy}.txt",
+            project=Projects,
+            ploidy=Ploidies)
+
+#++++++++++++++++++++++++++++++++++++++++++++++++ 1 PREPARE DATA  +++++++++++++++++++++++++++++++++++++++++++++++++
+# Migrate segmentfile
+rule Migrate_files:
+    input:
+        paths
+    output:
+        dynamic('/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/copynumber/segments/{sample}_segments.txt')
+    run:
+        Migrate_files(Sample_dict, input, data_dir)
+
+#++++++++++++++++++++++++++++++++++++++++++ 2 ESTIMATE PURITY WITH ACE  +++++++++++++++++++++++++++++++++++++++++++
+# Run ACE using a custom ACE script
+
+rule ACE:
+    input:
+        segments = "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/copynumber/segments/{sample}_segments.txt"
+    output:
+        fit = "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/copynumber/ACE/{sample}/{ploidy}/fits.txt",
+        errorgraph = "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/copynumber/ACE/{sample}/{ploidy}/errorgraph.svg"
+    params:
+        method = config['ACE']["method"],
+        penalty = config['ACE']['penalty'],
+        penploidy = config['ACE']['penploidy'],
+        chromlengths = config['ACE']['chromlengths']
+    conda:
+        'ACE'
+    script:
+        "scripts/ACE.R"
+
+#++++++++++++++++++++++++++++++++++++++++++ 3 COMPARE PURITY MEASURES   +++++++++++++++++++++++++++++++++++++++++++
+# Plot scatterplots of purity estimates of different measures
+
+rule Compare_purity_measures:
+    input:
+        ACE_fits = lambda wildcards: expand("/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/copynumber/ACE/{sample}/"+wildcards.ploidy+"/fits.txt", sample = Sample_dict[wildcards.project].values()),
+        Purities = "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/purity/GBM_Tumor_purities.tsv",
+    output:
+        Scatterplots = "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/plots/purity/Scatterplots_purity_{ploidy}_{project}.svg",
+        Tumor_purities = "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/{project}/ACE_Tumor_purities_{ploidy}.tsv",
+        Samples_to_exclude = "/net/beegfs/users/P086608/bulkRNA_glioma/data/GBM/{project}/data/Samples_to_exclude_{ploidy}.txt"
+    conda:
+        "r_env"
+    script:
+        "scripts/Compare_purity_measures.R"
