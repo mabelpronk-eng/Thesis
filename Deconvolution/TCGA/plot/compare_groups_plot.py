@@ -1,5 +1,5 @@
 """
-Script: Comparison of Microenvironment Composition Between Group 3 and Group 4
+Script: Comparison of Microenvironment Composition Between Groups
 
 Description:
 This script analyzes differences in tumor microenvironment (TME) composition 
