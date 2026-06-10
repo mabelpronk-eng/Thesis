@@ -1,9 +1,9 @@
 """
-Script: Validation of Statescope-Derived Malignant Fractions Against Prior Purity Estimates
+Script: Validation of Deconvolution-Derived Malignant Fractions Against Prior Purity Estimates
 
 Description:
 This script evaluates the concordance between malignant cell fractions estimated by 
-Statescope (from bulk RNA-seq deconvolution) and independent prior purity estimates 
+a deconvolution method (Statescope or CIBERSORTx) and independent prior purity estimates 
 (e.g., derived from DNA copy number data such as ACE).
 
 The script performs the following steps:
@@ -31,17 +31,30 @@ import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
 import os
 
+plt.rcParams.update({
+    "font.size": 10,
+    "axes.titlesize": 12,
+    "axes.labelsize": 12,
+    "legend.fontsize": 10,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10,
+
+    "font.family": "Times New Roman",
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42
+})
+
 #-------------------------------------------------------------------------------
 # 1. Load the Data
 #-------------------------------------------------------------------------------
 
 # Deconvolution fractions (Statescope output)
 # Note: index_col=0 ensures sample IDs are used as row indices
-deconv_path = '/net/beegfs/users/P086608/StatescopePro_v2/TCGA_bulk/Output/fractions3.csv'
-df_deconv = pd.read_csv(deconv_path, index_col=0)
+deconv_path = '/net/beegfs/users/P086608/CIBERSORT/data/TCGA/output/cibersort_fractions_TCGAbulk_gbm.tsv'
+df_deconv = pd.read_csv(deconv_path, sep = '\t', index_col=0)
 
 # Prior purity estimates (e.g., DNA-seq or pathology-based)
-purity_path = '/net/beegfs/users/P086608/StatescopePro_v2/TCGA_bulk/input/malignant_fraction_TCGA.csv'
+purity_path = '/net/beegfs/users/P086608/Statescope/StatescopePro_v2/TCGA_bulk/input/malignant_fraction_TCGA.csv'
 df_purity = pd.read_csv(purity_path, index_col=0)
 
 #-------------------------------------------------------------------------------
@@ -76,7 +89,7 @@ if only_in_purity:
 #-------------------------------------------------------------------------------
 
 # Define output path for the validation plot
-save_dir = "/net/beegfs/users/P086608/StatescopePro_v2/TCGA_bulk/Output"
+save_dir = "/net/beegfs/users/P086608/CIBERSORT/data/TCGA/output/plots"
 save_path = os.path.join(save_dir, "purity_validation_correlation.png")
 
 if len(shared_samples) > 0:
@@ -86,11 +99,11 @@ if len(shared_samples) > 0:
         df_purity[['Malignant']], 
         left_index=True, 
         right_index=True, 
-        suffixes=('_Statescope', '_Prior')
+        suffixes=('_CIBERSORTx', '_Prior')
     ).dropna()
 
     # Compute Pearson correlation between estimates
-    r, p = pearsonr(merged['Malignant_Statescope'], merged['Malignant_Prior'])
+    r, p = pearsonr(merged['Malignant_CIBERSORTx'], merged['Malignant_Prior'])
     
     #-------------------------------------------------------------------------------
     # 4. Visualization: Scatter Plot with Regression and Identity Line
@@ -102,7 +115,7 @@ if len(shared_samples) > 0:
     sns.regplot(
         data=merged, 
         x='Malignant_Prior', 
-        y='Malignant_Statescope',
+        y='Malignant_CIBERSORTx',
         fit_reg=False,
         scatter_kws={'alpha':0.5, 's':40}
         #line_kws={'color':'red', 'label': f'Regression (r={r:.2f})'}
@@ -111,14 +124,15 @@ if len(shared_samples) > 0:
     # Add identity line (y = x) representing perfect agreement
     max_val = max(
         merged['Malignant_Prior'].max(), 
-        merged['Malignant_Statescope'].max()
+        merged['Malignant_CIBERSORTx'].max()
     )
     plt.plot([0, max_val], [0, max_val], color='black', linestyle='--', label='Identity (y=x)')
     
     # Customize plot appearance
-    plt.title('Scatterplot of true vs predicted tumor fraction')
+    plt.title('Scatterplot of true vs predicted tumor fraction\n'
+    f'PCC = {r:.2f}')
     plt.xlabel('Prior tumor fraction (ACE)')
-    plt.ylabel('Statescope tumor fraction estimate')
+    plt.ylabel('CIBERSORTx tumor fraction estimate')
     plt.legend()
     plt.grid(True, linestyle=':', alpha=0.6)
     plt.xlim(0, 1)
@@ -139,11 +153,11 @@ import numpy as np
 
 # 1. Calculate Pearson Correlation (PCC)
 # pearsonr returns (correlation coefficient, p-value)
-r, p_val = pearsonr(merged['Malignant_Statescope'], merged['Malignant_Prior'])
+r, p_val = pearsonr(merged['Malignant_CIBERSORTx'], merged['Malignant_Prior'])
 
 # 2. Calculate RMSD (Root Mean Square Deviation)
 # Measures the average deviation from perfect agreement (identity line y = x)
-rmsd = np.sqrt(((merged['Malignant_Statescope'] - merged['Malignant_Prior']) ** 2).mean())
+rmsd = np.sqrt(((merged['Malignant_CIBERSORTx'] - merged['Malignant_Prior']) ** 2).mean())
 
 print(f"--- Validation Metrics (Malignant Cells) ---")
 print(f"Pearson Correlation (r): {r:.4f}")
@@ -171,10 +185,10 @@ def safe_pcc(x, y):
 
 
 # Calculate using SciPy (reference implementation)
-r_scipy, p_val = pearsonr(merged['Malignant_Statescope'], merged['Malignant_Prior'])
+r_scipy, p_val = pearsonr(merged['Malignant_CIBERSORTx'], merged['Malignant_Prior'])
 
 # Calculate using custom NumPy implementation
-r_np = safe_pcc(merged['Malignant_Statescope'], merged['Malignant_Prior'])
+r_np = safe_pcc(merged['Malignant_CIBERSORTx'], merged['Malignant_Prior'])
 
 print(f"--- Correlation Comparison ---")
 print(f"Scipy Pearson r: {r_scipy:.6f}")
