@@ -5,7 +5,7 @@
 # Concatenate adata files to one united adata object + cell type label harmonization
 #
 # Author: Dominika Martinovicova (d.martinovicova@amsterdamumc.nl)
-# Adaptation: Mabel Pronk
+# Adaptation: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 #
 # Usage:
 """
