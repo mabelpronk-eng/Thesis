@@ -33,13 +33,13 @@ import matplotlib.pyplot as plt
 #-------------------------------------------------------------------------------
 
 # Load annotated single-cell dataset
-adata = sc.read_h5ad('/net/beegfs/users/P086608/scRNA_glioma/new_approach_processing_scRNA/data/phenotyping/adata_final.h5ad')
+adata = sc.read_h5ad('/net/beegfs/users/P086608/scRNA_glioma/new_approach_processing_scRNA/data/final_clean_sc_atlas/adata_final_cleaned.h5ad')
 
 # Marker gene list
-markers ='/net/beegfs/users/P086608/scRNA_glioma/new_approach_processing_scRNA/data/annotations_markers/markers_poster.csv'
+markers ='/net/beegfs/users/P086608/scRNA_glioma/new_approach_processing_scRNA/data/annotations_markers/markers_used_thesis.csv'
 
 # Label used in output filenames
-dataset_char = 'markers_adata_final_v3_marker_poster'
+dataset_char = 'markers_refinement_thesis'
 
 # Expression layer used for visualization
 layer="log_norm"
