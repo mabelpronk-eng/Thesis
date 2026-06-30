@@ -9,7 +9,7 @@
 # Author: Jurriaan Janssen (j.janssen4@amsterdamumc.nl)
 # Adaptation: Mabel Pronk (m.pronk3@amsterdam.umc.nl)
 #
-# Usage:
+
 """
      python3 scripts/Clustering_scRNAseq_data.py \
 Arguments updated:
