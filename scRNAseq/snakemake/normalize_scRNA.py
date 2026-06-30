@@ -7,9 +7,9 @@
 #  Additionally a layer is added in which the log transformed and normalized data is stored (thus easier accessible later on)
 #
 # Author: Dominika Martinovicova (d.martinovicova@amsterdamumc.nl)
-# Adaptation: Mabel Pronk (m.pronk3@amsterdam.umc.nl
+# Adaptation: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 #
-# Usage:
+
 """
         python3 scripts/normalize_scRNA.py \
         -i {input.adata_concatenated} \
