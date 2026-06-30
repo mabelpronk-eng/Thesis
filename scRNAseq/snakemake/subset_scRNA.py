@@ -7,7 +7,7 @@
 #
 # Author: Dominika Martinovicova (d.martinovicova@amsterdamumc.nl) 
 # Adapation: Mabel Pronk (m.pronk3@amsterdamumc.nl)
-# Usage:
+
 """
      python3 scripts/subset_scRNA.py \
      -i {input.adata_ingested_scaled} \
