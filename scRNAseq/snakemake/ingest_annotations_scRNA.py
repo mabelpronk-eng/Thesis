@@ -7,7 +7,7 @@
 #
 # Author: Dominika Martinovicova (d.martinovicova@amsterdamumc.nl)
 # Adaptation: Mabel Pronk (m.pronk3@amsterdamumc.nl)
-# Usage:
+
 """
         python3 scripts/ingest_annotations_scRNA.py \
         -i {input.adata_normalized} \
