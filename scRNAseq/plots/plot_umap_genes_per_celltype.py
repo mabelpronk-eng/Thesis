@@ -1,20 +1,57 @@
+"""
+Script: Generate UMAPs for Marker Gene Expression
+
+Description:
+This script generates UMAP visualizations showing the expression of selected
+marker genes within an annotated single-cell RNA-seq dataset. Marker genes are
+organized by cell type, and each gene is plotted individually. Figures are
+saved into separate folders corresponding to each cell type.
+
+The script:
+1. Loads the annotated AnnData object.
+2. Defines marker genes for one or more cell populations.
+3. Creates an output directory for each cell type.
+4. Checks whether each marker gene is present in the dataset.
+5. Generates a UMAP displaying normalized expression of each marker gene.
+6. Saves all figures to their respective output folders.
+
+The script can easily be adapted by modifying:
+- the marker gene dictionary,
+- the expression layer,
+- the output directory,
+- the AnnData object.
+"""
 import os
 import scanpy as sc
 import matplotlib.pyplot as plt
 
 print("This is running")
 
-# Load adata
+#-------------------------------------------------------------------------------
+# 1. Load Data
+#-------------------------------------------------------------------------------
+
+# Load annotated single-cell dataset
 print("Loading adata...")
 adata = sc.read_h5ad("/net/beegfs/users/P086608/scRNA_glioma/new_approach_processing_scRNA/data/phenotyping/adata_final_with_sampleID.h5ad")
+
+# Label used in output filenames
 dataset_char = 'final'
 
-# Set working directory
+#-------------------------------------------------------------------------------
+# 2. Set Output Directory
+#-------------------------------------------------------------------------------
+
+# Define directory in which all figures will be saved
 print("Setting working directory...")
 base_dir = "/net/beegfs/users/P086608/scRNA_glioma/new_approach_processing_scRNA/plots/UMAP/clustering/BBKNN/Leiden_1/FINAL/v3"
 os.chdir(base_dir)
 
-# Marker genes dictionary
+#-------------------------------------------------------------------------------
+# 3. Define Marker Genes
+#-------------------------------------------------------------------------------
+
+# Marker genes grouped by cell type
 marker_genes = {
     #"B_cells": ["CD79A", "MS4A1"],
     #"CD4_Tcell": ["CD3D",'CD3G', "IL7R", 'CD4'],
@@ -36,6 +73,7 @@ marker_genes = {
     #"Neutrophils": ["IL1R2", "CXCR2", "FPR2", 'FCGR3B', 'ITGAM', 'SELL']
 }
 
+# Alternative marker gene panel (currently unused)
 marker_dict = {
     # Classical dendritic cells
     "cDC1": ["CLEC9A", "CADM1", "IDO1", "CST3"],
@@ -53,6 +91,9 @@ marker_dict = {
 }
 
 
+#-------------------------------------------------------------------------------
+# 4. Generate Marker Gene UMAPs
+#-------------------------------------------------------------------------------
 
 print("Creating UMAPs for marker genes...")
 
