@@ -1,0 +1,68 @@
+configfile: "config.yaml"
+
+# Folder Definitions
+SIG_DIR = "signatures"
+FINAL_OUT = "output_deconvolution"
+
+rule all:
+    input:
+        frac = f"{FINAL_OUT}/fractions3.csv",
+        model = f"{FINAL_OUT}/statescope.pkl"
+
+rule step1_initialize:
+    input:
+        bulk = config["bulk_counts"],
+        atlas = config["sc_atlas"]
+    output:
+        model = f"{SIG_DIR}/model_initialized.pkl"
+    conda:
+        "/home/P086608/miniconda3/envs/statescope" #Not needed: put snakemake in statescope env
+    params:
+        cell_key = config["celltype_column"] # Passed to script
+    shell:
+        "python scripts/initialize.py "
+        "--bulk {input.bulk} "
+        "--atlas {input.atlas} "
+        "--celltype_key {params.cell_key} "
+        "--out {output.model}"
+
+rule step2_extract_sig:
+    input:
+        model = f"{SIG_DIR}/model_initialized"
+    output:
+        sig = f"{SIG_DIR}/Signature_extracted.txt"
+    #conda:
+    #    "/home/P086608/miniconda3/envs/statescope"
+    shell:
+        "python scripts/extract_signature.py --model {input.model} --out {output.sig}"
+
+rule step3_deconvolution:
+    input:
+        sig = f"{SIG_DIR}/Signature_extracted.txt",
+        bulk = config["bulk_counts"],
+        exp = config["purity_expectation"]
+    output:
+        # Now Snakemake tracks both the fractions AND the model
+        frac = f"{FINAL_OUT}/fractions3.csv",
+        model = f"{FINAL_OUT}/statescope.pkl" 
+    #conda:
+    #    "/home/P086608/miniconda3/envs/statescope"
+    params:
+        out_dir = FINAL_OUT,
+        cell_key = config["celltype_column"],
+        nrep = config["n_reps"],
+        iters = config["max_iterations"]
+    shell:
+        """
+        python scripts/run_deconvolution.py \
+            --signature-csv {input.sig} \
+            --bulk-csv {input.bulk} \
+            --celltype-key {params.cell_key} \
+            --expectation-csv {input.exp} \
+            --backend gpu \
+            --nrep {params.nrep} --njobs 1 \
+            --iter-max {params.iters} \
+            --out-dir {params.out_dir} \
+            --save-model statescope.pkl \
+            --save-fractions fractions3.csv
+        """
