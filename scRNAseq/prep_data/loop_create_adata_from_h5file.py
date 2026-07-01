@@ -74,10 +74,11 @@ for file_name in file_list:
     sc.pp.calculate_qc_metrics(adata, qc_vars=['mt'], percent_top=None, log1p=False, inplace=True)
 
     # Add sample and cohort info to obs
-    adata.obs['sample'] = sample_name
+    adata.obs['case_id'] = sample_name
     adata.obs['geo_accession'] = sample_geo_accession
-    adata.obs['cohort'] = cohort
+    adata.obs['Cohort'] = cohort
     adata.obs['filter'] = filter
+    adata.obs['cell_id'] = adata.obs_names.copy()
 
     # Add study ID to obs names for uniqueness
     adata.obs_names = (adata.obs_names + study_id + '_' + sample_name)
