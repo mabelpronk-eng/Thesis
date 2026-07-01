@@ -60,18 +60,31 @@ from statannotations.Annotator import Annotator
 # --------------------------------------------------
 # 1) Setup environment and import Statescope
 # --------------------------------------------------
-SRC_DIR = "/net/beegfs/users/P086608/StatescopePro_v2/src"
+SRC_DIR = "/net/beegfs/users/P086608/Statescope/StatescopePro_v2/src"
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
 from Statescope.Statescope import Statescope
 
+plt.rcParams.update({
+    "font.size": 10,
+    "axes.titlesize": 12,
+    "axes.labelsize": 12,
+    "legend.fontsize": 10,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10,
+
+    "font.family": "Times New Roman",
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42
+})
+
 # --------------------------------------------------
 # 2) Define model and data paths
 # --------------------------------------------------
 model_paths = {
-    "Original": "/net/beegfs/users/P086608/StatescopePro_original/tutorial/pseudobulk_level3/Output_alpha_rem/statescope.pkl",
-    "Optimized (Lambda 0.0001)": "/net/beegfs/users/P086608/StatescopePro_v2/tutorial/Output_pseudobulk/lam_0_0001_rep_10/statescope.pkl"
+    "Original": "/net/beegfs/users/P086608/Statescope/StatescopePro_original/tutorial/pseudobulk_level3/Output_alpha_rem/statescope.pkl",
+    "Optimized (Lambda 0.0001)": "/net/beegfs/users/P086608/Statescope/StatescopePro_v2/tutorial/Output_pseudobulk/lam_0_0001_rep_10/statescope.pkl"
 }
 
 # Ground-truth cell type fractions
@@ -179,7 +192,7 @@ _, adj_p_values, _, _ = multipletests(raw_p_values, method='fdr_bh')
 # --------------------------------------------------
 # 6) Visualization
 # --------------------------------------------------
-plt.figure(figsize=(22, 10))
+plt.figure(figsize=(12, 5))
 sns.set_style("ticks")
 
 ax = sns.boxplot(
@@ -189,9 +202,8 @@ ax = sns.boxplot(
     hue="Model",
     hue_order=model_names,
     palette=["#ca4370", "#3ca3e7"],
-    fliersize=2,
-    linewidth=1.5,
-    showfliers=True
+    linewidth=1.2,
+    showfliers=False
 )
 
 # --------------------------------------------------
@@ -201,7 +213,7 @@ ax = sns.boxplot(
 pairs = [((ct, model_names[0]), (ct, model_names[1])) for ct in cell_order]
 
 annotator = Annotator(ax, pairs, data=df_error, x="Cell Type", y="Absolute Error", hue="Model", hue_order=model_names)
-annotator.configure(text_format="star", loc="inside", fontsize=12)
+annotator.configure(text_format="star", loc="inside")
 
 # Use FDR-adjusted p-values
 annotator.set_pvalues(adj_p_values) # Use the adjusted p-values
@@ -210,16 +222,17 @@ annotator.annotate()
 # --------------------------------------------------
 # 6.2 Plot styling
 # --------------------------------------------------
-for spine in ax.spines.values():
-    spine.set_visible(True)
-    spine.set_color('black')
-    spine.set_linewidth(1.5)
+#for spine in ax.spines.values():
+#    spine.set_visible(True)
+#    spine.set_color('black')
+#    spine.set_linewidth(1.5)
 
-ax.yaxis.grid(True, linestyle='--', which='major', color='grey', alpha=0.3)
+#ax.yaxis.grid(True, linestyle='--', which='major', color='grey', alpha=0.3)
 
-plt.title("Statistical Comparison of Absolute Error: Original vs. Optimized", fontsize=18, pad=25)
-plt.ylabel("Absolute Error", fontsize=14)
-plt.xlabel("Cell Types", fontsize=14)
+plt.title("Statistical Comparison of Absolute Error: Original vs. Optimized", pad=25)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.ylabel("Absolute Error")
+plt.xlabel("Cell Types")
 plt.xticks(rotation=45, ha='right')
 plt.legend(title="Model Version", loc='upper right')
 
@@ -231,7 +244,7 @@ plt.tight_layout()
 # --------------------------------------------------
 # 7) Save figure
 # --------------------------------------------------
-output_fig = "/net/beegfs/users/P086608/StatescopePro_v2/tutorial/Output_pseudobulk/Absolute_Error_Significance_Comparison.png"
+output_fig = "/net/beegfs/users/P086608/Statescope/StatescopePro_v2/tutorial/Output_pseudobulk/Absolute_Error_Significance_Comparison.png"
 plt.savefig(output_fig, dpi=300)
 print(f"\nAnnotated plot saved to: {output_fig}")
 plt.show()
