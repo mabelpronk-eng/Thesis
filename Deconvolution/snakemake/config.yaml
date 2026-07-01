@@ -1,0 +1,11 @@
+# Input File Paths
+bulk_counts: "inputs/pseudobulk_counts_transposed.csv"
+sc_atlas: "inputs/adata_final_log_norm.h5ad"
+purity_expectation: "inputs/malignant_fraction.csv"
+
+# Model Parameters
+celltype_column: "level3_celltype"  # Change this to level2_celltype whenever you want
+
+# Deconvolution Parameters
+n_reps: 10
+max_iterations: 1000
