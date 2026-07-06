@@ -51,7 +51,8 @@ plt.rcParams.update({
 # Deconvolution fractions (Statescope output)
 # Note: index_col=0 ensures sample IDs are used as row indices
 deconv_path = '/net/beegfs/users/P086608/Statescope/StatescopePro_v2/TCGA_bulk/Output/statescope/fractions3.csv'
-df_deconv = pd.read_csv(deconv_path, index_col=0)
+#deconv_path = '/net/beegfs/users/P086608/CIBERSORT/data/TCGA/output/cibersort_fractions_TCGAbulk_gbm.tsv'
+df_deconv = pd.read_csv(deconv_path, index_col=0) #if use tsv, add sep = '\t'
 
 # Prior purity estimates (e.g., DNA-seq or pathology-based)
 purity_path = '/net/beegfs/users/P086608/Statescope/StatescopePro_v2/TCGA_bulk/input/malignant_fraction_TCGA.csv'
