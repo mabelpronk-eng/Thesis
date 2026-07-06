@@ -104,7 +104,8 @@ if len(shared_samples) > 0:
 
     # Compute Pearson correlation between estimates
     r, p = pearsonr(merged['Malignant_Statescope'], merged['Malignant_Prior'])
-    
+    rmsd = np.sqrt(((merged['Malignant_Statescope'] - merged['Malignant_Prior'])
+                    
     #-------------------------------------------------------------------------------
     # 4. Visualization: Scatter Plot with Regression and Identity Line
     #-------------------------------------------------------------------------------
@@ -130,7 +131,7 @@ if len(shared_samples) > 0:
     
     # Customize plot appearance
     plt.title('Scatterplot of true vs predicted tumor fraction\n'
-    f'PCC = {r:.2f}')
+    f'PCC = {r:.2f}, RMSD = {rmsd:.2f}')
     plt.xlabel('Prior tumor fraction (ACE)')
     plt.ylabel('Statescope tumor fraction estimate')
     plt.legend()
