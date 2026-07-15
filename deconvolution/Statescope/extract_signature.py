@@ -32,6 +32,8 @@ Example:
     python export_signature.py \
         --model statescope_model.pkl \
         --out signature_matrix.tsv
+
+Adaptation: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 
 import os
