@@ -3,8 +3,8 @@
 # =============================================================================
 #
 # Description:
-# This script performs initial quality control (QC) on a merged single-cell
-# RNA-seq AnnData object prior to downstream processing such as filtering,
+# This script helps to select thresholds for initial quality control (QC) on a merged single-cell
+# RNA-seq AnnData object prior to downstream processing such as
 # normalization, clustering, and cell type annotation.
 #
 # The QC focuses on:
