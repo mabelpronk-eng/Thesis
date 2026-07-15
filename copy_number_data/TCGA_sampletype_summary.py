@@ -40,6 +40,7 @@
 # - Patient-level sample type summary table
 # - List of patients with >1 primary tumor sample
 #
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 import pandas as pd
