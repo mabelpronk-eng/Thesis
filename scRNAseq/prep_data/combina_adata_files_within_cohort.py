@@ -21,10 +21,10 @@
 # - Individual sample-level .h5ad files
 #
 # Outputs:
-# - Combined AnnData (.h5ad) containing all cells from the cohort
+# - Combined AnnData (.h5ad) containing all samples from the cohort
 #
 # Purpose:
-# To generate a unified scRNA-seq dataset from multiple processed samples,
+# To generate a unified scRNA-seq object from multiple samples,
 # providing a standardized input for downstream quality control, normalization,
 # integration, clustering, and cell type annotation.
 # ============================================================
