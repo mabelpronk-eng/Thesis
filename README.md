@@ -5,7 +5,7 @@ The project involved the analysis of multiple data types, including DNA copy num
 
 The scripts are organized into the following folders:
 
-## Data Types
+## Folders
 
 - **CNA**
   Scripts for processing and analyzing DNA copy number data, including ACE-based tumor purity estimation, retrieval of GISTIC copy number status, and generation of copy number profiles. 
