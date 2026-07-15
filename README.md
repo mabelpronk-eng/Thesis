@@ -1,7 +1,6 @@
 # My Project
 
 This repository contains the analysis scripts used for my glioblastoma thesis project.
-
 The project involved the analysis of multiple data types, including DNA copy number data, single-cell RNA sequencing (scRNA-seq) data, and bulk RNA-seq data. In addition, a major component of the project focused on cell-type deconvolution analysis.
 
 The scripts are organized into the following folders:
