@@ -23,7 +23,7 @@ Inputs (via command-line arguments):
 Outputs:
 - CSV file containing summed gene expression per patient/sample
 
-Author: Mabel Pronk
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 
 """
 
