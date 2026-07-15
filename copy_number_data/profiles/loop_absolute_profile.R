@@ -18,6 +18,7 @@
 # Output:
 # - PNG plots of absolute copy number profiles per tumor sample
 #
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 # Load required functions
