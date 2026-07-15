@@ -20,7 +20,7 @@ Output:
 - Stacked barplot showing mean cohort composition
 - Consistent cell-type coloring across all figures
 
-Author: Mabel Pronk
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 import pandas as pd
 import matplotlib.pyplot as plt
