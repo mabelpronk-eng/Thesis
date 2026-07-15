@@ -21,6 +21,8 @@
 # Purpose:
 #   - To enable comparison of focal CNV events across key GBM driver genes
 #   - To link GISTIC calls with sample-level CNV segmentation data
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 ################################################################################
 
 library(dplyr)
