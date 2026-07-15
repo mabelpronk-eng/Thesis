@@ -32,6 +32,8 @@
 # - One AnnData (.h5ad) file per sample
 # - Optional CSV files listing duplicated gene names per sample
 #
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 import os
