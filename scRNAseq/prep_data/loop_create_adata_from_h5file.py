@@ -23,6 +23,8 @@
 # Outputs:
 # - One processed AnnData (.h5ad) file per sample
 #
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 import os
