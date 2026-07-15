@@ -15,8 +15,8 @@ Behavior:
   • Bulk is ALWAYS normalized to counts-per-10k (CP10K) immediately after reading.
   • Delimiter for CSV/TSV auto-detected (comma or tab).
 
-Made by; Aryamaan bose
-Adapted: Mabel Pronk
+Author; Aryamaan bose (a.bose1@amsterdamumc.nl)
+Adaptation: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 
 import os
