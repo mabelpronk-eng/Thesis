@@ -29,6 +29,8 @@
 # Purpose:
 # To retrieve and unpack raw GEO single-cell RNA-seq data so it can
 # be processed into AnnData objects for downstream analysis.
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 import os
