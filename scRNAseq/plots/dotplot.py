@@ -20,6 +20,8 @@ The script can easily be adapted by modifying:
 - the grouping variable(s),
 - the expression layer,
 - the output directory.
+
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 
 import os
