@@ -15,6 +15,8 @@ Main steps:
 
 The goal is to determine whether observed biological differences between groups
 (e.g., TME composition) may be influenced by underlying clinical variables.
+
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 
 import pandas as pd
