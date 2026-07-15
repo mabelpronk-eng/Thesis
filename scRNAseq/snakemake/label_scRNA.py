@@ -1,11 +1,13 @@
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# label_scRNA.py Heslo@100
+# label_scRNA.py 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # Refine cell labels based on marker gene expression in immune and myeloid subset and in combined adata file
 # 
 # Author: Dominika Martinovicova (d.martinovicova@amsterdamumc.nl) 
+# Adaptation: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 #
+# 
 # Usage:
 """
      python3 scripts/label_scRNA.py \
