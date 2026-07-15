@@ -22,6 +22,8 @@
 # Purpose:
 # To provide a clear overview of the prevalence of key focal genomic aberrations
 # in the dataset and support downstream interpretation and reporting.
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 import pandas as pd
