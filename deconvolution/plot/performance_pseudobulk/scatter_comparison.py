@@ -18,6 +18,8 @@ The script:
 Outputs:
 - Scatterplot (PDF) of predicted vs true cell fractions
 - JSON file containing consistent cell-type color mapping
+
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 # script based on scatter in script: /net/beegfs/users/P086608/StatescopePro_v2/tutorial/Output_pseudobulk/ELBO_decomposition_compare_models.py
 
