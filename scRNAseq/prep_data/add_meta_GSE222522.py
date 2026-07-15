@@ -31,6 +31,8 @@
 # Notes:
 # - GSM IDs are used as the linking key between GEO metadata and AnnData.
 # - IDH status is harmonized into simplified categories (WT / Mut).
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # =============================================================================
 
 import pandas as pd
