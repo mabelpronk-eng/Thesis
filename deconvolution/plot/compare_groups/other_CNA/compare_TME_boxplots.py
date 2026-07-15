@@ -32,6 +32,8 @@
 # To identify associations between focal genomic aberrations (e.g., CDK4 amplification)
 # and shifts in tumor microenvironment composition, supporting biological interpretation
 # of CNA-driven TME interactions.
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 import pandas as pd
