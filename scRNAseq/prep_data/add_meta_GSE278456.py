@@ -34,6 +34,8 @@
 # Notes:
 # - `case_id` is used as the primary join key between metadata and AnnData.
 # - IDH status is simplified into WT / Mut for consistency across analyses.
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # =============================================================================
 
 import pandas as pd
