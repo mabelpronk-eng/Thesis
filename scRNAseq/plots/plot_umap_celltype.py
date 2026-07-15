@@ -19,6 +19,8 @@ The script can easily be adapted by modifying:
 - the target cell population,
 - the highlight color,
 - the output directory.
+
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 import os
 import scanpy as sc
