@@ -30,6 +30,8 @@ The script:
 The resulting figure and statistical summaries provide insight into differences 
 in microenvironment composition between groups while controlling for multiple 
 testing and statistical assumptions.
+
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 
 import pandas as pd
