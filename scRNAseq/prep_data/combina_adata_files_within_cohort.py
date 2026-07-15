@@ -27,6 +27,8 @@
 # To generate a unified scRNA-seq object from multiple samples,
 # providing a standardized input for downstream quality control, normalization,
 # integration, clustering, and cell type annotation.
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 import os
 import anndata as ad
