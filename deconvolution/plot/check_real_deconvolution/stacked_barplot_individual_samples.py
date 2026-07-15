@@ -10,7 +10,7 @@ A stacked bar plot is generated, where each bar represents a sample and each seg
 corresponds to the relative fraction of a specific cell type. The plot is automatically 
 scaled based on the number of samples and saved for downstream analysis and reporting.
 
-Author: Mabel Pronk
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 
 import pandas as pd
