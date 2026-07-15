@@ -16,4 +16,4 @@ The project integrates multiple data types, organized into the following folders
   Processing and analysis of bulk transcriptomic datasets.
 
 - **Deconvolution**  
-  Scripts for estimating cell type proportions from bulk RNA-seq data (e.g., CIBERSORT & Statescope). Also scripts for evaluation of the performance of the deconvolution models.
+  Scripts for estimating cell type proportions from bulk RNA-seq data (e.g., CIBERSORT & Statescope). Also scripts for evaluation of the performance of the deconvolution models (visualization and statistical comparison).
