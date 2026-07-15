@@ -31,6 +31,7 @@ Output:
 - Statistical test summary printed to console
 - Saved figure in PDF format
 
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 ============================================================
 """
 
