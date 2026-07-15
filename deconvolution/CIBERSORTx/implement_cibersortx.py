@@ -32,6 +32,8 @@
 # - Intermediate regression matrices (SVR coefficients, NNLS estimates)
 # - Console validation of compositional constraints
 #
+#  Author: Yongsoo Kim (yo.kim@amsterdamumc.nl)
+#  Adaptation: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 from sklearn.svm import SVR
