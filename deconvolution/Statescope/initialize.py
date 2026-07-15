@@ -29,6 +29,8 @@ Example:
         --atlas atlas.h5ad \
         --celltype_key lv1_celltype \
         --out statescope_model.pkl
+
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 import os
 import sys
