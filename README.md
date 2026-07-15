@@ -10,7 +10,7 @@ The project integrates multiple data types, organized into the following folders
   Copy number aberration analysis scripts and related processing.
 
 - **Single-cell RNA-seq data**  
-  Single cell atlas construction and pseudobulk sample generation scripts.
+  Included in this folder are script concerning: downloading the data, single cell atlas construction, visualization (dotplots & UMAP) of the data and pseudobulk sample generation scripts.
 
 - **Bulk RNA-seq data**  
   Processing and analysis of bulk transcriptomic datasets.
