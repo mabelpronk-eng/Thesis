@@ -1,5 +1,11 @@
-# # Save signature for later use  
-# # Concatenate along columns (genes aligned by index)  
+##############################################
+# Same function as extract_signature.py script
+##############################################
+# Save signature for later use  
+# Concatenate along columns (genes aligned by index) 
+#
+# Script can be used if snakemake is not used 
+##############################################
 import pandas as pd
 import os
 import sys
