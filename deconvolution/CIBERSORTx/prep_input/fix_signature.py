@@ -33,7 +33,8 @@
 # - No additional scaling or log transformation should be applied
 # - Bulk and signature matrices must remain in the same scale
 #
-# Author: Mabel Pronk
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
+# ============================================================
 
 import pandas as pd
 import numpy as np
