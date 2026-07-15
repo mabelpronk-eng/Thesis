@@ -24,6 +24,8 @@
 #   - ggplot2 (visualisation)
 #   - dplyr (data wrangling)
 #   - ggrepel (non-overlapping labels)
+#
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 ################################################################################
 
 
