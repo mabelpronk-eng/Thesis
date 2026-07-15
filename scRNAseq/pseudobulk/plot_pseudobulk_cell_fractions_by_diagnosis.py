@@ -16,7 +16,7 @@ The script:
    - Stripplots overlay individual sample points for transparency.
 7. Saves the figure for downstream reporting and analysis.
 
-Author: Mabel Pronk
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 
 import pandas as pd
