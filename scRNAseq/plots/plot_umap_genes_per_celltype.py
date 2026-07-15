@@ -20,6 +20,8 @@ The script can easily be adapted by modifying:
 - the expression layer,
 - the output directory,
 - the AnnData object.
+
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 import os
 import scanpy as sc
