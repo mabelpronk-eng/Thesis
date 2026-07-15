@@ -24,7 +24,7 @@
 #   - CIBERSORT
 #   - SVR-based deconvolution
 #
-# Author: Mabel Pronk 
+# Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 # ============================================================
 
 import pandas as pd
