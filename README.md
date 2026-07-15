@@ -8,6 +8,7 @@ The scripts are organized into the following folders:
 ## Data Types
 
 - **CNA**
+
   Scripts for processing and analyzing DNA copy number data, including ACE-based tumor purity estimation, retrieval of GISTIC copy number status, and generation of copy number profiles. 
 
 - **Single-cell RNA-seq data**  
