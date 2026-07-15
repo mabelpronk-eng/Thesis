@@ -22,7 +22,7 @@ The script performs the following steps:
 The resulting figure and metrics are used for downstream reporting and validation 
 of deconvolution performance.
 
-Author: Mabel Pronk
+Author: Mabel Pronk (m.pronk3@amsterdamumc.nl)
 """
 
 import pandas as pd
